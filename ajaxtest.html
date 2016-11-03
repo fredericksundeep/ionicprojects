@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+   
+var root = 'http://jsonplaceholder.typicode.com';
+$.ajaxSetup({
+
+    global: true,
+    beforeSend: function (jqXHR, settings) {
+         if(navigator.onLine){
+  alert('online');
+
+ } else {
+ alert(settings.url);
+  alert('offline');
+  
+  this.success("test","success",jqXHR);
+   jqXHR.abort();
+  
+ }
+         
+            
+    }
+});
+var emp = {
+	name:"gopi",
+	id:1,
+	role:"sw"
+}
+ $.ajax({
+         url: root + '/posts/1',
+        async: true, 
+       dataType: 'json',
+       data:emp,
+type: "POST",     
+       
+ 
+        success: function(data, textStatus, xhr) {
+                alert("test value"+JSON.stringify(data));
+                
+                 $.ajax({
+         url: root + '/posts/2',
+        async: true, 
+       dataType: 'json',
+type: "GET",     
+ success: function(data, textStatus, xhr) {
+  alert("result: ");
+ },
+ error: function(xhr, textStatus, errorThrown) {
+           
+           
+            alert("error: "+textStatus);
+
+      }
+      });
+                
+                
+            
+        },
+        error: function(xhr, textStatus, errorThrown) {
+           
+           
+            alert("opps: " + textStatus + " : " + errorThrown);
+
+      }
+    });
+    
+    
+    
+      
+    });
+});
+</script>
+</head>
+<body align='center'>
+
+
+<div><h2>Test Case - AJAX Call with BeforeSend</h2></div>
+
+<div><button>Change Content</button></div>
+
+</body>
+</html>
+
